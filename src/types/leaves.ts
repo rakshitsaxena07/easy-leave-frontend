@@ -9,6 +9,7 @@ export type LeaveResponse = {
   startTime: string;
   applyOn: string;
   reason: string;
+  holidayId?: string;
 };
 
 export type LeaveApplicationRequest = {
@@ -31,6 +32,7 @@ export type LeaveApplicationResponse = {
 
 export type UpdateLeaveRequest = {
   leaveCategoryId: string;
+  holidayId?: string;
   date: string;
   duration: LeaveDuration;
   startTime: string;

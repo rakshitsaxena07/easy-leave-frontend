@@ -3,6 +3,7 @@ import LeaveForm from '@/components/leave/LeaveForm';
 import Loading from '@/components/Loading';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
+import useHolidays from '@/hooks/useHolidays';
 import useLeaveCategories from '@/hooks/useLeaveCategories';
 import type { LeaveCategoryResponse } from '@/types/leaveCategory';
 import type { LeaveFormValues } from '@/types/leaveForm';
@@ -24,6 +25,7 @@ const LeaveDetails = (): React.JSX.Element => {
   const { id } = useParams();
   const { categories } = useLeaveCategories();
   const navigate = useNavigate();
+  const { holidays } = useHolidays('OPTIONAL');
 
   const fetchLeaveDetails = async (id: string | undefined) => {
     try {
@@ -49,7 +51,7 @@ const LeaveDetails = (): React.JSX.Element => {
     values: LeaveFormValues,
     { resetForm }: FormikHelpers<LeaveFormValues>,
   ): Promise<void> => {
-    const leaveData = buildUpdatePayload(values, updateLeaveInitialValues);
+    const leaveData = buildUpdatePayload(values, updateLeaveInitialValues, holidays);
 
     if (Object.keys(leaveData).length === 0) {
       toast.error('No changes made. At least one field must be provided to update the leave');
@@ -110,15 +112,27 @@ const LeaveDetails = (): React.JSX.Element => {
     (category) => category.name === leave.type,
   );
 
-  const updateLeaveInitialValues: LeaveFormValues = {
-    leaveCategoryId: matchedCategory?.id || '',
-    holidayId: '',
-    dateRange: { from: parseLocalDate(leave.date), to: parseLocalDate(leave.date) },
-    duration: leave.duration,
-    startTime: leave.startTime,
-    description: leave.reason,
-    leaveType: 'regular',
-  };
+  const isHolidayLeave = leave.holidayId !== null;
+
+  const updateLeaveInitialValues: LeaveFormValues = isHolidayLeave
+    ? {
+        leaveCategoryId: '',
+        holidayId: leave.holidayId ?? '',
+        dateRange: { from: parseLocalDate(leave.date), to: parseLocalDate(leave.date) },
+        duration: leave.duration,
+        startTime: leave.startTime,
+        description: leave.reason,
+        leaveType: 'holiday',
+      }
+    : {
+        leaveCategoryId: matchedCategory?.id || '',
+        holidayId: '',
+        dateRange: { from: parseLocalDate(leave.date), to: parseLocalDate(leave.date) },
+        duration: leave.duration,
+        startTime: leave.startTime,
+        description: leave.reason,
+        leaveType: 'regular',
+      };
 
   return (
     <div className="w-full p-3">
