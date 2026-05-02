@@ -27,6 +27,7 @@ const mockLeave: LeaveResponse = {
   startTime: '09:00:00',
   applyOn: '2026-04-06T10:00:00',
   reason: 'Personal work',
+  holidayId: null,
 };
 
 const mockUpdateLeaveResponse: LeaveApplicationResponse = {

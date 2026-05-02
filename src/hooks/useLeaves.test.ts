@@ -14,6 +14,7 @@ const mockLeaves: LeaveResponse[] = [
     employeeName: 'Priyansh Saxena',
     startTime: '09:00',
     reason: 'Personal work',
+    holidayId: null,
   },
 ];
 

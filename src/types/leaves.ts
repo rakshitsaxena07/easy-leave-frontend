@@ -9,7 +9,7 @@ export type LeaveResponse = {
   startTime: string;
   applyOn: string;
   reason: string;
-  holidayId?: string;
+  holidayId: string | null;
 };
 
 export type LeaveApplicationRequest = {
