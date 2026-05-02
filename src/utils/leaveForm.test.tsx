@@ -1,6 +1,7 @@
 import type { LeaveFormValues } from '@/types/leaveForm';
 import { buildUpdatePayload } from './leaveForm';
 import type { LeaveDuration } from '@/types/leaves';
+import type { HolidayResponse } from '@/types/holiday';
 
 const originalLeave: LeaveFormValues = {
   leaveCategoryId: '1',
@@ -127,5 +128,62 @@ describe('buildUpdatePayload', () => {
     expect(result).toEqual({
       date: '2026-04-15',
     });
+  });
+
+  test('should update holidayId and related fields when holidayId changes', () => {
+    const holidays: HolidayResponse[] = [
+      { id: 'holiday-1', name: 'Holiday 1', date: '2026-12-31', type: 'OPTIONAL' },
+      { id: 'holiday-2', name: 'Holiday 2', date: '2026-10-20', type: 'OPTIONAL' },
+    ];
+
+    const original: LeaveFormValues = {
+      ...originalLeave,
+      leaveType: 'holiday',
+      holidayId: 'holiday-2',
+    };
+
+    const updated: LeaveFormValues = {
+      ...originalLeave,
+      leaveType: 'holiday',
+      holidayId: 'holiday-1',
+    };
+
+    const result = buildUpdatePayload(updated, original, holidays);
+
+    expect(result).toEqual({
+      holidayId: 'holiday-1',
+      date: '2026-12-31',
+      description: 'Holiday 1',
+    });
+  });
+
+  test('should update only startTime when holidayId does not change', () => {
+    const original: LeaveFormValues = {
+      ...originalLeave,
+      leaveType: 'holiday',
+      holidayId: 'holiday-1',
+      startTime: '09:00',
+    };
+
+    const updated: LeaveFormValues = {
+      ...original,
+      startTime: '10:00',
+    };
+
+    const result = buildUpdatePayload(updated, original, []);
+
+    expect(result).toEqual({ startTime: '10:00' });
+  });
+
+  test('should return empty payload when nothing changes on holiday leave', () => {
+    const original: LeaveFormValues = {
+      ...originalLeave,
+      leaveType: 'holiday',
+      holidayId: 'holiday-1',
+    };
+
+    const result = buildUpdatePayload(original, original, []);
+
+    expect(result).toEqual({});
   });
 });
