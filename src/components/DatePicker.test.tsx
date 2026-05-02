@@ -10,6 +10,16 @@ const mockFrom = new Date(2026, 3, 6);
 // Friday, April 10, 2026
 const mockTo = new Date(2026, 3, 10);
 
+beforeAll(() => {
+  // Mocking the current date to April 1, 2026 for consistent test results
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  vi.setSystemTime(new Date(2026, 3, 1));
+});
+
+afterAll(() => {
+  vi.useRealTimers();
+});
+
 describe('DatePicker', () => {
   test('displays only the start date when only from is provided', () => {
     render(<DatePicker date={{ from: mockFrom, to: undefined }} setDate={vi.fn()} />);
