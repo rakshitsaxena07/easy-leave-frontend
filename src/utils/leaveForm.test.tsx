@@ -1,5 +1,5 @@
 import type { LeaveFormValues } from '@/types/leaveForm';
-import { buildUpdatePayload } from './leaveForm';
+import { buildUpdatePayload, validateLeaveForm } from './leaveForm';
 import type { LeaveDuration } from '@/types/leaves';
 import type { HolidayResponse } from '@/types/holiday';
 
@@ -186,5 +186,13 @@ describe('buildUpdatePayload', () => {
     const result = buildUpdatePayload(original, original, []);
 
     expect(result).toEqual({});
+    });
+  test('should return error when duration is undefined', () => {
+    const result = validateLeaveForm({
+      ...originalLeave,
+      duration: '' as LeaveDuration,
+    });
+    expect(result.duration).toBe('Select duration');
   });
 });
+

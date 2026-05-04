@@ -31,6 +31,10 @@ export const validateLeaveForm = (values: LeaveFormValues): FormikErrors<LeaveFo
     if (values.description.length > 1000) {
       errors.description = 'Leave Description cannot be over 1000 characters';
     }
+
+    if (!values.duration) {
+      errors.duration = 'Select duration';
+    }
   }
   return errors;
 };
