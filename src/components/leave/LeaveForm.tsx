@@ -25,6 +25,7 @@ type LeaveFormProps = {
   handleCancelLeave?: () => void;
   cancelLabel?: string;
   disableSubmit?: boolean;
+  disableCancel?: boolean;
 };
 
 const LeaveForm = ({
@@ -35,6 +36,7 @@ const LeaveForm = ({
   handleCancelLeave,
   cancelLabel = 'Cancel Leave',
   disableSubmit = false,
+  disableCancel = false,
 }: LeaveFormProps): React.JSX.Element => {
   const { categories, loading, error } = useLeaveCategories();
   const { holidays, loading: holidaysLoading, error: holidaysError } = useHolidays('OPTIONAL');
@@ -167,11 +169,11 @@ const LeaveForm = ({
                 type="button"
                 variant="destructive"
                 onClick={handleCancelLeave}
-                disabled={disableSubmit}
+                disabled={disableCancel}
               >
                 {cancelLabel}
               </Button>
-              {!disableSubmit && (
+              {!disableCancel && (
                 <div className="flex gap-2 p-2 text-sm text-gray-800">
                   <TriangleAlert size={18} />
                   Cancelling leave cannot be undone.

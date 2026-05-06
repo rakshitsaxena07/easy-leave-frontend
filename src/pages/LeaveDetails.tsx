@@ -104,6 +104,7 @@ const LeaveDetails = (): React.JSX.Element => {
 
   const firstDayOfCurrentMonth = startOfMonth(today);
   const isBeforeCurrentMonth = leaveDate < firstDayOfCurrentMonth;
+  const isPastOrToday = leaveDate <= today;
 
   const matchedCategory: LeaveCategoryResponse | undefined = categories.find(
     (category) => category.name === leave.type,
@@ -136,6 +137,7 @@ const LeaveDetails = (): React.JSX.Element => {
           handleCancelLeave={handleCancelLeave}
           cancelLabel="Cancel Leave"
           disableSubmit={isBeforeCurrentMonth}
+          disableCancel={isPastOrToday}
         />
       </div>
     </div>
