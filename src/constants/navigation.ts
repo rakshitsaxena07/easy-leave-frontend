@@ -1,4 +1,4 @@
-import { CalendarDays, CalendarPlus, LayoutDashboard, Users } from 'lucide-react';
+import { CalendarDays, CalendarPlus, ClipboardClock, LayoutDashboard, Users } from 'lucide-react';
 import type { NavItem } from '../types/navigation';
 export const EMPLOYEE_NAV_ITEMS: NavItem[] = [
   {
@@ -22,6 +22,11 @@ export const MANAGER_NAV_ITEMS: NavItem[] = [
     name: 'All Employees',
     icon: Users,
     href: '/manager/employees',
+  },
+  {
+    name: 'Pending Requests',
+    icon: ClipboardClock,
+    href: '/manager/requests',
   },
 ];
 export const ADMIN_NAV_ITEMS: NavItem[] = [

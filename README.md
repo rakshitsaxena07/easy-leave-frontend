@@ -498,3 +498,58 @@ GET /api/holidays?type=OPTIONAL
 5. Select an optional holiday from the dropdown
 6. Submit the form
 7. Expect: Success toast + list refresh with the new leave application for the selected optional holiday
+
+---
+
+### Pending Requests (Manager)
+
+#### Overview
+
+This feature allows managers to view and review all employee requests that are in a `PENDING` state within their organization.
+
+It provides a clean and structured interface to help managers track incoming requests efficiently.
+
+#### Key Highlights
+
+- Displays all pending requests for the organization
+- Pagination support using **"Show More"** button
+- Reusable `RequestCard` component for consistent UI
+- Shows request details including:
+  - Employee Name
+  - Request Type
+  - Duration
+  - Applied Date
+  - Leave Date
+  - Category (if applicable)
+  - Description
+- Handles loading, error, and empty states gracefully
+
+#### Route
+
+```
+/manager/requests
+```
+
+> Accessible only to users with **MANAGER** role
+
+#### Data Handling
+
+- Uses custom hook `useRequest` for:
+  - Fetching request data
+  - Managing pagination
+  - Handling loading and error states
+
+#### How to Test
+
+1. Log in as a **Manager**
+2. Navigate to `/manager/requests`
+3. Verify:
+   - Loader appears on initial load
+   - Pending requests are displayed correctly
+4. If no requests:
+   - Confirm empty state message appears
+5. Click **"Show More"**:
+   - Additional requests should load
+   - Button shows loading state during fetch
+6. Simulate API failure:
+   - Error message should be displayed

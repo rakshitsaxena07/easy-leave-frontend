@@ -7,6 +7,7 @@ import SingleEmployeeLeaveDetails from '@/pages/SingleEmployeeLeaveDetails';
 import LeaveDetails from '@/pages/LeaveDetails';
 import Holidays from '@/pages/Holidays';
 import LeaveAndRequest from '@/pages/LeaveAndRequest';
+import PendingRequests from '@/pages/PendingRequests';
 
 export type AppRoute = {
   path: string;
@@ -45,6 +46,11 @@ export const APP_ROUTES: AppRoute[] = [
   {
     path: '/manager/employees/:id',
     element: <SingleEmployeeLeaveDetails />,
+    roles: ['MANAGER'],
+  },
+  {
+    path: '/manager/requests',
+    element: <PendingRequests />,
     roles: ['MANAGER'],
   },
   {
