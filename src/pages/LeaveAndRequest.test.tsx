@@ -79,7 +79,7 @@ describe('LeaveAndRequest Page', () => {
     renderLeaveAndRequest();
     await userEvent.click(screen.getByRole('button', { name: 'Raise Request' }));
     await waitFor(() => {
-      expect(screen.getByLabelText(/Request Type/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Type/i)).toBeInTheDocument();
     });
   });
 
@@ -93,7 +93,7 @@ describe('LeaveAndRequest Page', () => {
     renderLeaveAndRequest();
     await userEvent.click(screen.getByRole('button', { name: 'Raise Request' }));
     await waitFor(() => {
-      expect(screen.getByLabelText(/Request Type/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Type/i)).toBeInTheDocument();
     });
     await userEvent.click(screen.getByRole('button', { name: 'Leave' }));
     expect(await screen.findByRole('button', { name: 'Submit Leave' })).toBeInTheDocument();

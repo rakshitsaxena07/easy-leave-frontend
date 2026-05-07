@@ -210,7 +210,7 @@ describe('Leave Page Component', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Raise Request' }));
 
     await waitFor(() => {
-      expect(screen.getByText('Request Type')).toBeInTheDocument();
+      expect(screen.getByText('Type')).toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Submit Leave' })).not.toBeInTheDocument();
     });
   });

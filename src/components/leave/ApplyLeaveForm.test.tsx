@@ -71,19 +71,19 @@ describe('ApplyLeaveForm', () => {
   test('renders all form fields', async () => {
     renderApplyLeaveForm();
 
-    expect(await screen.findByLabelText(/Leave Category/i)).toBeInTheDocument();
+    expect(await screen.findByLabelText(/Category/i)).toBeInTheDocument();
     expect(screen.getByText('Pick a date')).toBeInTheDocument();
     expect(screen.getByLabelText(/Duration/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Start Time/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/End Time/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Leave Description/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Description/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Submit Leave' })).toBeInTheDocument();
   });
 
   test('display required field validation errors', async () => {
     renderApplyLeaveForm();
 
-    await screen.findByLabelText(/Leave Category/i);
+    await screen.findByLabelText(/Category/i);
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
 
@@ -95,10 +95,10 @@ describe('ApplyLeaveForm', () => {
   test('displays error when description exceeds 1000 characters', async () => {
     renderApplyLeaveForm();
 
-    const leaveCategoryInput = await screen.findByLabelText(/Leave Category/i);
+    const leaveCategoryInput = await screen.findByLabelText(/Category/i);
     await userEvent.selectOptions(leaveCategoryInput, '1');
 
-    const descriptionInput = screen.getByLabelText(/Leave Description/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
     const longDescription = 'a'.repeat(1001);
 
     fireEvent.change(descriptionInput, { target: { value: longDescription } });
@@ -112,12 +112,12 @@ describe('ApplyLeaveForm', () => {
   test('submits form with correct data', async () => {
     renderApplyLeaveForm();
 
-    const leaveCategoryInput = await screen.findByLabelText(/Leave Category/i);
+    const leaveCategoryInput = await screen.findByLabelText(/Category/i);
     await userEvent.selectOptions(leaveCategoryInput, '1');
 
     await userEvent.click(screen.getByRole('button', { name: 'Pick a date' }));
 
-    const descriptionInput = screen.getByLabelText(/Leave Description/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
     fireEvent.change(descriptionInput, { target: { value: 'Test' } });
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
@@ -138,12 +138,12 @@ describe('ApplyLeaveForm', () => {
 
     renderApplyLeaveForm();
 
-    const leaveCategoryInput = await screen.findByLabelText(/Leave Category/i);
+    const leaveCategoryInput = await screen.findByLabelText(/Category/i);
     await userEvent.selectOptions(leaveCategoryInput, '1');
 
     await userEvent.click(screen.getByRole('button', { name: 'Pick a date' }));
 
-    const descriptionInput = screen.getByLabelText(/Leave Description/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
     fireEvent.change(descriptionInput, { target: { value: 'Test' } });
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
@@ -156,12 +156,12 @@ describe('ApplyLeaveForm', () => {
 
     renderApplyLeaveForm();
 
-    const leaveCategoryInput = await screen.findByLabelText(/Leave Category/i);
+    const leaveCategoryInput = await screen.findByLabelText(/Category/i);
     await userEvent.selectOptions(leaveCategoryInput, '1');
 
     await userEvent.click(screen.getByRole('button', { name: 'Pick a date' }));
 
-    const descriptionInput = screen.getByLabelText(/Leave Description/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
     fireEvent.change(descriptionInput, { target: { value: 'Test' } });
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
@@ -193,13 +193,13 @@ describe('ApplyLeaveForm', () => {
 
     renderApplyLeaveForm();
 
-    const leaveCategoryInput = await screen.findByLabelText(/Leave Category/i);
+    const leaveCategoryInput = await screen.findByLabelText(/Category/i);
     const option = await screen.findByRole('option', { name: /Annual Leave/i });
     await userEvent.selectOptions(leaveCategoryInput, option);
 
     await userEvent.click(screen.getByRole('button', { name: 'Pick a date' }));
 
-    const descriptionInput = screen.getByLabelText(/Leave Description/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
     fireEvent.change(descriptionInput, { target: { value: 'Test' } });
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
@@ -209,9 +209,9 @@ describe('ApplyLeaveForm', () => {
 
   test('switches to holiday mode when Optional Holiday is selected from leave type dropdown', async () => {
     renderApplyLeaveForm();
-    await screen.findByLabelText(/Leave Category/i);
+    await screen.findByLabelText(/Category/i);
 
-    await userEvent.selectOptions(screen.getByLabelText(/Leave Type/i), 'holiday');
+    await userEvent.selectOptions(screen.getByLabelText(/Type/i), 'holiday');
 
     expect(screen.getByLabelText(/Select Optional Holiday/i)).toBeInTheDocument();
     expect(screen.queryByLabelText(/Leave Category/i)).not.toBeInTheDocument();
@@ -221,9 +221,9 @@ describe('ApplyLeaveForm', () => {
 
   test('displays validation error when submitting in holiday mode without selecting a holiday', async () => {
     renderApplyLeaveForm();
-    await screen.findByLabelText(/Leave Category/i);
+    await screen.findByLabelText(/Category/i);
 
-    await userEvent.selectOptions(screen.getByLabelText(/Leave Type/i), 'holiday');
+    await userEvent.selectOptions(screen.getByLabelText(/Type/i), 'holiday');
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
 
     expect(await screen.findByText(/Please select a holiday/i)).toBeInTheDocument();
@@ -231,9 +231,9 @@ describe('ApplyLeaveForm', () => {
 
   test('submits correct payload when a holiday is selected', async () => {
     renderApplyLeaveForm();
-    await screen.findByLabelText(/Leave Category/i);
+    await screen.findByLabelText(/Category/i);
 
-    await userEvent.selectOptions(screen.getByLabelText(/Leave Type/i), 'holiday');
+    await userEvent.selectOptions(screen.getByLabelText(/Type/i), 'holiday');
     await userEvent.selectOptions(screen.getByLabelText(/Select Optional Holiday/i), 'holiday1');
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
 
@@ -251,9 +251,9 @@ describe('ApplyLeaveForm', () => {
 
   test('displays validation error when no leave type is selected', async () => {
     renderApplyLeaveForm();
-    await screen.findByLabelText(/Leave Type/i);
+    await screen.findByLabelText(/Type/i);
 
-    await userEvent.selectOptions(screen.getByLabelText(/Leave Type/i), '');
+    await userEvent.selectOptions(screen.getByLabelText(/Type/i), '');
     await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
 
     expect(await screen.findByText(/Leave type is required/i)).toBeInTheDocument();
