@@ -248,4 +248,14 @@ describe('ApplyLeaveForm', () => {
     });
     expect(toast.success).toHaveBeenCalled();
   });
+
+  test('displays validation error when no leave type is selected', async () => {
+    renderApplyLeaveForm();
+    await screen.findByLabelText(/Leave Type/i);
+
+    await userEvent.selectOptions(screen.getByLabelText(/Leave Type/i), '');
+    await userEvent.click(screen.getByRole('button', { name: 'Submit Leave' }));
+
+    expect(await screen.findByText(/Leave type is required/i)).toBeInTheDocument();
+  });
 });

@@ -7,6 +7,10 @@ import type { HolidayResponse } from '@/types/holiday';
 export const validateLeaveForm = (values: LeaveFormValues): FormikErrors<LeaveFormValues> => {
   const errors: FormikErrors<LeaveFormValues> = {};
 
+  if (!values.leaveType) {
+    errors.leaveType = 'Leave type is required';
+  }
+
   if (values.leaveType === 'holiday') {
     if (!values.holidayId) {
       errors.holidayId = 'Please select a holiday';
